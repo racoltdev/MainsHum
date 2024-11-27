@@ -12,8 +12,9 @@ returns raw data from a bandpass
 """
 def freqExtract(sample, freq_min, freq_max):
 	sample_rate, data = audioConverter.wavToNp(sample)
-	low_cut = audioConverter.HzToRads(freq_min)
-	high_cut = audioConverter.HzToRads(freq_max)
+	#low_cut = audioConverter.HzToRads(freq_min)
+	#high_cut = audioConverter.HzToRads(freq_max)
+	low_cut, high_cut = freq_min, freq_max
 
 	# Fall off rate of frequencies outside the range
 	order = 5
@@ -23,14 +24,15 @@ def freqExtract(sample, freq_min, freq_max):
 
 
 def butter_bandpass(data, low_cut, high_cut, sample_rate, order):
+	# Not sure why, but nyq isn't needed here, and frequencies are expected in Hz. ¯\_(ツ)_/¯
 	# nyq freq is half the sample rate.
 	# It's the highest freq that can be captured at a sample rate
-	nyq = 0.5 * sample_rate
-	low = low_cut / nyq
-	high = high_cut / nyq
+	#nyq = 0.5 * sample_rate
+	#low = low_cut / nyq
+	#high = high_cut / nyq
 
 	# TODO Should play around with different output options to see which is best
 	# Creat the filter
-	b, a = scipy.signal.butter(order, [low, high], btype='bandpass', output='ba', fs=sample_rate)
+	b, a = scipy.signal.butter(order, [low_cut, high_cut], btype='bandpass', output='ba', fs=sample_rate)
 	# Calculate what passes through the filter
 	return scipy.signal.lfilter(b, a, data)

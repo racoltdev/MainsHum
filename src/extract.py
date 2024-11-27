@@ -48,6 +48,7 @@ def _cleanArgs(sample, freq, freq_range, output_file, FREQ_MIN, FREQ_MAX):
 		prompt = input("Warning, output file already exists. Over write? y/n\n")
 		if prompt.lower()[0] != 'y':
 			print("Aborting")
+			exit()
 
 	if isFloat(freq) and float(freq) >= FREQ_MIN and float(freq) <= FREQ_MAX:
 		freq = float(freq)

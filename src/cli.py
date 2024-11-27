@@ -1,4 +1,5 @@
 import sys
+import os
 
 import extract
 
@@ -16,8 +17,6 @@ def cli_main(args):
 		help()
 
 	return
-
-
 
 
 def compare(sample, history):
