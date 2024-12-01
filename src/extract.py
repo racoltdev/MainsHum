@@ -18,7 +18,7 @@ def extract(sample, freq, freq_range, output_file):
 	if os.path.splitext(sample)[1] != ".wav":
 		#Isolate just the name of the file
 		tmpFile = os.path.split(sample)[1]
-		tmpFile = os.path.splitext(tmpFile)[0] + "tmp.wav"
+		tmpFile = os.path.splitext(tmpFile)[0] + ".tmp.wav"
 
 		print(f'\tCreating temporary {tmpFile}')
 		audioConverter.toWav(sample, tmpFile)
@@ -45,7 +45,7 @@ def _cleanArgs(sample, freq, freq_range, output_file, FREQ_MIN, FREQ_MAX):
 	# Leave determining if its an audio file to ffmpeg. It will know better
 
 	if os.path.isfile(output_file):
-		prompt = input("Warning, output file already exists. Over write? y/n\n")
+		prompt = input(f"Warning, output file \"{output_file}\" already exists. Over write? y/n\n")
 		if prompt.lower()[0] != 'y':
 			print("Aborting")
 			exit()

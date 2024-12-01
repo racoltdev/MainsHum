@@ -11,6 +11,7 @@ def cli_main(args):
 	if mode == "extract" or mode == "x":
 		print("Extacting...")
 		extract.extract(*args)
+		print("Done!")
 	elif mode == "compare" or mode == "c":
 			compare(*args)
 	else:

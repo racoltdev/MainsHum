@@ -3,8 +3,8 @@ from scipy.io import wavfile
 import math
 
 def toWav(filename, newName):
-	command = f"ffmpeg -i {filename} {newName}"
-	subprocess.call(command, shell=True)
+	command = f"ffmpeg -loglevel level+warning -i \"{filename}\" \"{newName}\""
+	subprocess.run(command, shell=True, check=True)
 
 def wavToNp(filename):
 	sample_rate, data = wavfile.read(filename)
