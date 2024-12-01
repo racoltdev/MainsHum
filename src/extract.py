@@ -6,10 +6,7 @@ import audioConverter
 import audioAnalyzer
 
 def extract(sample, freq, freq_range, output_file):
-	FREQ_MIN = 20
-	FREQ_MAX = 40000
-
-	freq, freq_min, freq_max = _cleanArgs(sample, freq, freq_range, output_file, FREQ_MIN, FREQ_MAX)
+	freq_min, freq_max = _cleanArgs(sample, freq, freq_range, output_file)
 
 	print(f'\tSample file: {os.path.abspath(sample)}\n\tFrequency band: [{freq_min}, {freq_max}]\n')
 
@@ -38,11 +35,15 @@ def extract(sample, freq, freq_range, output_file):
 	return
 
 
-def _cleanArgs(sample, freq, freq_range, output_file, FREQ_MIN, FREQ_MAX):
+def _cleanArgs(sample, freq, freq_range, output_file):
+	# TODO min and max should be calculated based off of sample_rate
+	FREQ_MIN = 20.0
+	FREQ_MAX = 20000.0
+
 	if not os.path.isfile(sample):
 		print("error")
 		exit()
-	# Leave determining if its an audio file to ffmpeg. It will know better
+	# Leave determining if its an audio file to ffmpeg. It will know better than I do
 
 	if os.path.isfile(output_file):
 		prompt = input(f"Warning, output file \"{output_file}\" already exists. Over write? y/n\n")
@@ -64,7 +65,7 @@ def _cleanArgs(sample, freq, freq_range, output_file, FREQ_MIN, FREQ_MAX):
 		print("Frequency range error")
 		exit()
 
-	return freq, freq_min, freq_max
+	return freq_min, freq_max
 
 
 def isFloat(s):
