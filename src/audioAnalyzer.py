@@ -14,15 +14,13 @@ def freqExtract(sample, freq_min, freq_max):
 	sample_rate, data = audioConverter.wavToNp(sample)
 	#low_cut = audioConverter.HzToRads(freq_min)
 	#high_cut = audioConverter.HzToRads(freq_max)
-	low_cut, high_cut = freq_min, freq_max
 
 	# Fall off rate of frequencies outside the range
 	order = 5
-	bandpass_filter = lambda d : butter_bandpass(d, low_cut, high_cut, sample_rate, order)
-	pass_through = np.apply_along_axis(bandpass_filter, 0, data)
-	print(pass_through)
-	pass_through = pass_through.astype('int16')
-	return pass_through, sample_rate
+	bandpass_filter = lambda d : butter_bandpass(d, freq_min, freq_max, sample_rate, order)
+	pass_through = np.apply_along_axis(bandpass_filter, 0, data).astype('int16')
+	output = normalize(pass_through)
+	return output, sample_rate
 
 
 def butter_bandpass(data, low_cut, high_cut, sample_rate, order):
@@ -37,3 +35,13 @@ def butter_bandpass(data, low_cut, high_cut, sample_rate, order):
 	sos = scipy.signal.butter(order, [low_cut, high_cut], btype='bandpass', output='sos', fs=sample_rate)
 	# Calculate what passes through the filter
 	return scipy.signal.sosfilt(sos, data)
+
+
+# This just assumes desired output volume is around 600 since thats what most of my samples were at. 60 Hz is audible to me with this volume
+def normalize(output):
+	o_avg = np.average(np.absolute(output))
+	target_volume = 600
+	factor = round(target_volume / o_avg)
+	return output * factor
+
+
