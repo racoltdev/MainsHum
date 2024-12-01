@@ -19,7 +19,9 @@ def freqExtract(sample, freq_min, freq_max):
 	# Fall off rate of frequencies outside the range
 	order = 5
 	bandpass_filter = lambda d : butter_bandpass(d, low_cut, high_cut, sample_rate, order)
-	pass_through = np.apply_along_axis(bandpass_filter, 0, data).astype('int16')
+	pass_through = np.apply_along_axis(bandpass_filter, 0, data)
+	print(pass_through)
+	pass_through = pass_through.astype('int16')
 	return pass_through, sample_rate
 
 
@@ -31,8 +33,7 @@ def butter_bandpass(data, low_cut, high_cut, sample_rate, order):
 	#low = low_cut / nyq
 	#high = high_cut / nyq
 
-	# TODO Should play around with different output options to see which is best
-	# Creat the filter
-	b, a = scipy.signal.butter(order, [low_cut, high_cut], btype='bandpass', output='ba', fs=sample_rate)
+	# sos is the best method to use. ba breaks a lot with low ranges
+	sos = scipy.signal.butter(order, [low_cut, high_cut], btype='bandpass', output='sos', fs=sample_rate)
 	# Calculate what passes through the filter
-	return scipy.signal.lfilter(b, a, data)
+	return scipy.signal.sosfilt(sos, data)

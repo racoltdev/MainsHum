@@ -42,20 +42,20 @@ def _cleanArgs(sample, freq, freq_range, output_file):
 
 	if not os.path.isfile(sample):
 		print("error")
-		exit()
+		exit(-1)
 	# Leave determining if its an audio file to ffmpeg. It will know better than I do
 
 	if os.path.isfile(output_file):
 		prompt = input(f"Warning, output file \"{output_file}\" already exists. Over write? y/n\n")
 		if prompt.lower()[0] != 'y':
 			print("Aborting")
-			exit()
+			exit(-1)
 
 	if isFloat(freq) and float(freq) >= FREQ_MIN and float(freq) <= FREQ_MAX:
 		freq = float(freq)
 	else:
 		print("Frequency must be a positive number between {FREQ_MIN} and {FREQ_MAX}")
-		exit()
+		exit(-1)
 
 	if isFloat(freq_range):
 		freq_range = float(freq_range)
@@ -63,7 +63,7 @@ def _cleanArgs(sample, freq, freq_range, output_file):
 		freq_max = min(FREQ_MAX, freq + freq_range)
 	else:
 		print("Frequency range error")
-		exit()
+		exit(-1)
 
 	return freq_min, freq_max
 

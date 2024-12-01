@@ -30,13 +30,13 @@ def compare(sample, history):
 
 def help():
 	print("help text")
-	exit()
+	exit(-1)
 
 
 def extractError(args, e):
 		print(args)
 		print(str(e))
-		exit()
+		exit(-1)
 
 
 if __name__ == "__main__":
