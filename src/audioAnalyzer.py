@@ -49,11 +49,12 @@ def down_sample(data, sample_rate, freq_min, freq_max):
 		data = sig.decimate(data, 10, axis=0)
 
 	# Must keep type cast of factor and sample_rate in sync
-	factor = int(factor)
+	factor = int(np.round(factor))
 	if factor > 1:
-		sample_rate = int(sample_rate / factor)
+		sample_rate = int(np.round(sample_rate / factor))
 		data = sig.decimate(data, factor, axis=0)
-	return data, int(sample_rate)
+
+	return data, int(np.round(sample_rate))
 
 
 def butter_bandpass(data, low_cut, high_cut, sample_rate, order):
