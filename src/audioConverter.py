@@ -4,6 +4,7 @@ import math
 
 def toWav(filename, newName):
 	command = f"ffmpeg -loglevel level+warning -i \"{filename}\" \"{newName}\""
+    # "check" means raise exception if command fails
 	subprocess.run(command, shell=True, check=True)
 
 def wavToNp(filename):

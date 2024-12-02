@@ -1,5 +1,5 @@
 import numpy as np
-import scipy
+import scipy.signal as sig
 
 import audioConverter
 
@@ -32,9 +32,9 @@ def butter_bandpass(data, low_cut, high_cut, sample_rate, order):
 	#high = high_cut / nyq
 
 	# sos is the best method to use. ba breaks a lot with low ranges
-	sos = scipy.signal.butter(order, [low_cut, high_cut], btype='bandpass', output='sos', fs=sample_rate)
+	sos = sig.butter(order, [low_cut, high_cut], btype='bandpass', output='sos', fs=sample_rate)
 	# Calculate what passes through the filter
-	return scipy.signal.sosfilt(sos, data)
+	return sig.sosfilt(sos, data)
 
 
 # This just assumes desired output volume is around 600 since thats what most of my samples were at. 60 Hz is audible to me with this volume
@@ -43,5 +43,3 @@ def normalize(output):
 	target_volume = 600
 	factor = round(target_volume / o_avg)
 	return output * factor
-
-

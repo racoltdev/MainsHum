@@ -69,7 +69,7 @@ def _cleanArgs(sample, freq, freq_range, output_file):
 
 
 def isFloat(s):
-	if re.match(r'^\d+(\.(\d?)+)?$', s) is None:
+	if re.match(r'^(\d+)?(\.\d+)?$', s) is None or not s:
 		return False
 	else:
 		return True
