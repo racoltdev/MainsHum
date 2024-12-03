@@ -5,9 +5,8 @@ from scipy.io import wavfile
 import audioConverter
 import audioAnalyzer
 
-def extract(sample, freq, freq_range, output_file):
-	freq_min, freq_max = _cleanArgs(sample, freq, freq_range, output_file)
-
+# Only for use internally in this program. Do not call this directly while scripting or handling user input
+def extract(sample, freq_min, freq_max, output_file):
 	print(f'\tSample file: {os.path.abspath(sample)}\n\tFrequency band: [{freq_min}, {freq_max}]\n')
 
 	wav = sample
@@ -35,7 +34,9 @@ def extract(sample, freq, freq_range, output_file):
 	return
 
 
-def _cleanArgs(sample, freq, freq_range, output_file):
+# If dealing with user input, call this
+# This cleans up input and verifies its good
+def extract_cli(sample, freq, freq_range, output_file):
 	# TODO min and max should be calculated based off of sample_rate
 	FREQ_MIN = 20.0
 	FREQ_MAX = 20000.0
@@ -65,7 +66,8 @@ def _cleanArgs(sample, freq, freq_range, output_file):
 		print("Frequency range error")
 		exit(-1)
 
-	return freq_min, freq_max
+	extract(sample, freq_min, freq_max, output_file)
+	return
 
 
 def isFloat(s):

@@ -9,11 +9,12 @@ def cli_main(args):
 	mode = mode.lower()
 
 	if mode == "extract" or mode == "x":
-		print("Extacting...")
-		extract.extract(*args)
+		print("Extracting...")
+		extract.extract_cli(*args)
 		print("Done!")
 	elif mode == "compare" or mode == "c":
-			compare(*args)
+		print("Comparing...")
+		compare(*args)
 	else:
 		help()
 
