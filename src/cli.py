@@ -2,6 +2,7 @@ import sys
 import os
 
 import extract
+import compare
 
 def cli_main(args):
 	mode = args[0]
@@ -20,14 +21,6 @@ def cli_main(args):
 		help()
 
 	return
-
-
-def compare(sample, history):
-	if not os.path.isfile(sample):
-		print("error")
-	if not os.path.isfile(history):
-		print("error")
-	print(sample, history)
 
 
 def help():

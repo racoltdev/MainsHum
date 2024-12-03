@@ -41,9 +41,7 @@ def extract_cli(sample, freq, freq_range, output_file):
 	FREQ_MIN = 20.0
 	FREQ_MAX = 20000.0
 
-	if not os.path.isfile(sample):
-		print("error")
-		exit(-1)
+	util.assertFileExists(sample)
 	# Leave determining if its an audio file to ffmpeg. It will know better than I do
 
 	util.outputExists(output_file)

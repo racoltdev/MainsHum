@@ -7,12 +7,20 @@ def isFloat(s):
 	else:
 		return True
 
+
 def outputExists(output_file):
 	if os.path.isfile(output_file):
 		prompt = input(f"Warning, output file \"{output_file}\" already exists. Over write? y/n\n")
 		if prompt.lower()[0] != 'y':
 			print("Aborting")
 			exit(-1)
+	return
+
+
+def assertFileExists(file):
+	if not os.path.isfile(file):
+		print("error")
+		exit(-1)
 	return
 
 
