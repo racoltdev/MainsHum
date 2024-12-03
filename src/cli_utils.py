@@ -8,7 +8,7 @@ def isFloat(s):
 		return True
 
 
-def outputExists(output_file):
+def promptOutputExists(output_file):
 	if os.path.isfile(output_file):
 		prompt = input(f"Warning, output file \"{output_file}\" already exists. Over write? y/n\n")
 		if prompt.lower()[0] != 'y':

@@ -2,7 +2,7 @@ import numpy as np
 import scipy.signal as sig
 import math
 
-import audioConverter
+import converter
 
 # Assume data being passes is a wav file
 
@@ -12,9 +12,9 @@ freq_min, freq_max : float, min and max freqs of the filter in Hz
 returns raw data from a bandpass
 """
 def freqExtract(sample, freq_min, freq_max):
-	sample_rate, data = audioConverter.wavToNp(sample)
-	#low_cut = audioConverter.HzToRads(freq_min)
-	#high_cut = audioConverter.HzToRads(freq_max)
+	sample_rate, data = converter.wavToNp(sample)
+	#low_cut = converter.HzToRads(freq_min)
+	#high_cut = converter.HzToRads(freq_max)
 
 	data, new_sample_rate = down_sample(data, sample_rate, freq_min, freq_max)
 	# Fall off rate of frequencies outside the range

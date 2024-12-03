@@ -2,10 +2,11 @@ import os
 
 import cli_utils as util
 import extract
+import converter
 
 def compare(sample, background, freq_min, freq_max):
-	output_file = "compare.tmp.wav"
-	extract.extract(sample, freq_min, freq_max, output_file)
+	sample_rate, extracted = extract.extract(sample, freq_min, freq_max)
+	bg = converter.wavToNp(background)
 	return
 
 
