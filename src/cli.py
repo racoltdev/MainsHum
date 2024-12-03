@@ -14,7 +14,8 @@ def cli_main(args):
 		print("Done!")
 	elif mode == "compare" or mode == "c":
 		print("Comparing...")
-		compare(*args)
+		compare.compare_cli(*args)
+		print("Done!")
 	else:
 		help()
 

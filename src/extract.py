@@ -1,9 +1,9 @@
 import os
-import re
 from scipy.io import wavfile
 
 import audioConverter
 import audioAnalyzer
+import cli_utils as util
 
 # Only for use internally in this program. Do not call this directly while scripting or handling user input
 def extract(sample, freq_min, freq_max, output_file):
@@ -46,32 +46,9 @@ def extract_cli(sample, freq, freq_range, output_file):
 		exit(-1)
 	# Leave determining if its an audio file to ffmpeg. It will know better than I do
 
-	if os.path.isfile(output_file):
-		prompt = input(f"Warning, output file \"{output_file}\" already exists. Over write? y/n\n")
-		if prompt.lower()[0] != 'y':
-			print("Aborting")
-			exit(-1)
+	util.outputExists(output_file)
 
-	if isFloat(freq) and float(freq) >= FREQ_MIN and float(freq) <= FREQ_MAX:
-		freq = float(freq)
-	else:
-		print("Frequency must be a positive number between {FREQ_MIN} and {FREQ_MAX}")
-		exit(-1)
-
-	if isFloat(freq_range):
-		freq_range = float(freq_range)
-		freq_min = max(FREQ_MIN, freq - freq_range)
-		freq_max = min(FREQ_MAX, freq + freq_range)
-	else:
-		print("Frequency range error")
-		exit(-1)
+	freq_min, freq_max = util.getFreqBounds(freq, freq_range, FREQ_MIN, FREQ_MAX)
 
 	extract(sample, freq_min, freq_max, output_file)
 	return
-
-
-def isFloat(s):
-	if re.match(r'^(\d+)?(\.\d+)?$', s) is None or not s:
-		return False
-	else:
-		return True

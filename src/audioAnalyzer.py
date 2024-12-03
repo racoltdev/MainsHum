@@ -21,7 +21,8 @@ def freqExtract(sample, freq_min, freq_max):
 	order = 5
 	bandpass_filter = lambda d : butter_bandpass(d, freq_min, freq_max, new_sample_rate, order)
 	pass_through = np.apply_along_axis(bandpass_filter, 0, data).astype('int16')
-	output = normalize(pass_through, sample_rate, new_sample_rate)
+	#output = normalize(pass_through, sample_rate, new_sample_rate)
+	output = pass_through
 	return output, new_sample_rate
 
 
