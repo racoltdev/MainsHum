@@ -1,7 +1,6 @@
 import subprocess
 from scipy.io import wavfile
 import math
-import wave
 
 # TODO enable reading from a wav stream instead. Need to find a way to convert a stream to np array
 def toWav(filename, newName, stdout=False):
@@ -20,3 +19,14 @@ def wavToNp(filename):
 
 def HzToRads(freq):
 	return 2 * math.pi * freq
+
+
+def listDelta(l):
+	return [l[x + 1] - l[x] for x in range(len(l) - 1)]
+
+def toMono(wav):
+	mono = wav
+	channels = len(wav[0])
+	if channels > 0:
+		mono = [x[0] for x in wav]
+	return mono

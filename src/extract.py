@@ -6,6 +6,7 @@ import converter
 import cli_utils as util
 
 # Only for use internally in this program. Do not call this directly while scripting or handling user input
+# sample can be any filename with audio data
 def extract(sample, freq_min, freq_max):
 	print(f'\tSample file: {os.path.abspath(sample)}\n\tFrequency band: [{freq_min}, {freq_max}]\n')
 
@@ -36,6 +37,7 @@ def extract(sample, freq_min, freq_max):
 
 # If dealing with user input, call this
 # This cleans up input and verifies its good
+# sample can be any filename with audio data
 def extract_cli(sample, freq, freq_range, output_file):
 	# TODO min and max should be calculated based off of sample_rate
 	FREQ_MIN = 20.0
@@ -49,6 +51,6 @@ def extract_cli(sample, freq, freq_range, output_file):
 	freq_min, freq_max = util.getFreqBounds(freq, freq_range, FREQ_MIN, FREQ_MAX)
 
 	sample_rate, extracted = extract(sample, freq_min, freq_max)
-	print("\tSaving to {output_file}")
+	print(f"\tSaving to {output_file}")
 	wavfile.write(output_file, sample_rate, extracted)
 	return

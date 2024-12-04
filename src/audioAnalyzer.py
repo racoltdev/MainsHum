@@ -4,8 +4,6 @@ import math
 
 import converter
 
-# Assume data being passes is a wav file
-
 """
 sample: string, .wav filename
 freq_min, freq_max : float, min and max freqs of the filter in Hz
@@ -26,6 +24,7 @@ def freqExtract(sample, freq_min, freq_max):
 	return output, new_sample_rate
 
 
+# TODO on narrow bands, new sample should be between 10 and 15 times the target freq
 def down_sample(data, sample_rate, freq_min, freq_max):
 	band = freq_max - freq_min
 
@@ -35,12 +34,19 @@ def down_sample(data, sample_rate, freq_min, freq_max):
 
 	# Yeah, this is magic, but it's just a random eq to get a roughly ok sampling rate
 	# Desired is at least 1 order of magnitude greater than freq_max
-	desired_rate = int(10 ** math.ceil(np.log10(freq_max)) * 1.5)
+	# TODO this will need to be replaced if I sub in a new factoring method
+	desired_rate = int(10 ** (math.ceil(np.log10(freq_max)) + 1))
 
+	print(f"\tDownsampling from {sample_rate}Hz to ~{desired_rate}Hz")
 	factor = int(sample_rate / desired_rate)
+	data, sample_rate = factorize_decimate(factor, data, sample_rate)
 
 	# Final sample rate will not be exactly the desired rate because the factor must be an int
-	print(f"\tDownsampling from {sample_rate}Hz to ~{desired_rate}Hz")
+	print(f"\tFinal sample rate: {sample_rate}")
+	return data, sample_rate
+
+
+def factorize_decimate(factor, data, sample_rate):
 	# This sucks
 	# decimate should only be done with a factor of 13 max at a time
 	# this is the best I could come up with to step with decimate
@@ -55,7 +61,6 @@ def down_sample(data, sample_rate, freq_min, freq_max):
 		sample_rate = int(np.round(sample_rate / factor))
 		data = sig.decimate(data, factor, axis=0)
 	sample_rate = int(np.round(sample_rate))
-	print(f"\tFinal sample rate: {sample_rate}")
 	return data, sample_rate
 
 
