@@ -24,23 +24,28 @@ def compare(sample, background, freq_min, freq_max):
 def getZeros(wav):
 	sign = getSign(wav[0])
 	zeros = []
-	zerosInARow = []
+	firstZero = -1
 	for i in range(len(wav)):
 		# Catch if sample is exactly 0
 		# Does not need fuzzy matching since values are int16
-		if wav[i] == 0:
-			zerosInARow.append(i)
+		if wav[i] == 0 and firstZero == -1:
+			firstZero = i
+		elif wav[i] == 0:
+			pass
+		elif wav[i] != 0 and firstZero != -1:
+			position = (firstZero + i - 1) / 2
+			zeros.append(float(position))
+			firstZero = -1
+			sign = getSign(wav[i])
 		elif getSign(wav[i]) != sign:
 			sign = not sign
 			# Assume portion of the sine wave near zero is approx linear
 			# This is a valid assumption is there are at least 10 samples per wavelength
 			portion = 0.0
-			if wav[i - 1] == 0:
-				portion = lin_interpolate(zerosInARow[0], i - 1)
-				zerosInARow = []
-			else:
-				portion = lin_interpolate(wav[i - 1], wav[i])
+			portion = lin_interpolate(wav[i - 1], wav[i])
 			zeros.append(float(i - 1) + portion)
+			firstZero = -1
+
 	return zeros
 
 
