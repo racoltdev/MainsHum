@@ -12,6 +12,7 @@ def toWav(filename, newName, stdout=False):
 	subprocess.check_output(command, shell=True)
 	return
 
+
 def wavToNp(filename):
 	sample_rate, data = wavfile.read(filename)
 	return sample_rate, data
@@ -23,6 +24,7 @@ def HzToRads(freq):
 
 def listDelta(l):
 	return [l[x + 1] - l[x] for x in range(len(l) - 1)]
+
 
 def toMono(wav):
 	mono = wav

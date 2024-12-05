@@ -11,13 +11,13 @@ def compare(sample, background, freq_min, freq_max):
 	bg_mono = converter.toMono(bg)
 	sample_mono = converter.toMono(extracted)
 
-	plotter.discreteTime(sample_mono)
+	#plotter.discreteTime(sample_mono)
 
 	bg_zeros = getZeros(bg_mono)
-	bg_lengths = converter.listDelta(bg_zeros)
+	#bg_lengths = converter.listDelta(bg_zeros)
 	plotter.double(bg_mono, bg_zeros)
-	sample_zeros = getZeros(sample_mono)
-	sample_lengths = converter.listDelta(sample_zeros)
+	#sample_zeros = getZeros(sample_mono)
+	#sample_lengths = converter.listDelta(sample_zeros)
 	return
 
 
@@ -29,7 +29,7 @@ def getZeros(wav):
 		# Catch if sample is exactly 0
 		# Does not need fuzzy matching since values are int16
 		if wav[i] == 0:
-			zerosInARow.append(float(i - 1))
+			zerosInARow.append(i)
 		elif getSign(wav[i]) != sign:
 			sign = not sign
 			# Assume portion of the sine wave near zero is approx linear
@@ -46,6 +46,9 @@ def getZeros(wav):
 
 # Returns the distance from u as a proportion of (v - u) where a line would intersect y=0
 def lin_interpolate(u, v):
+	# Avoid division by zero
+	if (u == v):
+		return 0
 	slope = (v - u)
 	intercept = - u / slope
 	return intercept

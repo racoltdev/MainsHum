@@ -7,6 +7,7 @@ def discreteTime(wav):
 	plt.show()
 	return
 
+
 def double(wav, zeros):
 	numSamples = len(wav)
 	wavX = np.linspace(0, numSamples, num=numSamples)
