@@ -32,6 +32,8 @@ This is the primary mode of operation of the tool. Compare mode takes two files,
 - frequency: The core frequency in Hz that should be extracted from the sample.
 - range: How many Hz in either direction from the core frequency should be accepted through the filter. This is not an exact measure due to how the filtering method works.
 <!-- end list -->
-The frequency range specified should be roughly equivalent to the expected frequency range of the background. For the US power grid, the frequency range of that signal is expected to be 60Hz +/- 1% [NEEDS CITATION]. This means a reasonable frequency range for comparing against the background mains hum would be 60Hz +/- 0.6 Hz.
+The frequency range specified should be roughly equivalent to the expected frequency range of the background. For the US power grid, the frequency range of that signal is expected to be 60Hz +/- 1%[^1]. This means a reasonable frequency range for comparing against the background mains hum would be 60Hz +/- 0.6 Hz.
 #### Ouput
 Prints whether a match was found between the sample and the background, and at what sample point in the background file does the match start.
+## Citations
+[^1]:Muelaner, J. (2021, February 5). Grid frequency stability and renewable power. Engineering.com. https://www.engineering.com/grid-frequency-stability-and-renewable-power/
