@@ -1,3 +1,6 @@
+import numpy as np
+from numpy.lib.stride_tricks import sliding_window_view
+
 import cli_utils as util
 import extract
 import converter
@@ -6,38 +9,72 @@ import plotter
 def compare(sample, background, freq_min, freq_max):
 	sample_rate, extracted = extract.extract(sample, freq_min, freq_max)
 	bg_sample_rate, bg = converter.wavToNp(background)
+	sample_size = len(extracted)
+	print(sample_size)
+	# TODO for the sample I tested, this is reasonable. Test if this is a good constant
+	viable_start = 2000
+	print(viable_start)
+	# The end of the file seems to be very accurate
+	extracted = extracted[viable_start:sample_size]
 
 	print(f"\n\tConverting samples to mono")
 	bg_mono = converter.toMono(bg)
 	sample_mono = converter.toMono(extracted)
 
-	#plotter.discreteTime(sample_mono)
 
 	bg_zeros = getZeros(bg_mono)
-	#bg_lengths = converter.listDelta(bg_zeros)
-	plotter.double(bg_mono, bg_zeros)
-	#sample_zeros = getZeros(sample_mono)
-	#sample_lengths = converter.listDelta(sample_zeros)
+	bg_lengths = converter.listDelta(bg_zeros)
+	sample_zeros = getZeros(sample_mono)
+	sample_lengths = converter.listDelta(sample_zeros)
+	plotter.both(bg_mono, bg_zeros, sample_mono, sample_zeros)
+
+	time = contains(bg_lengths, sample_lengths)
+	print(time)
 	return
 
+
+def contains(superset, subset):
+	return windowContains(superset, subset)
+
+
+def windowContains(superset, subset):
+	windows = sliding_window_view(superset, window_shape=len(subset))
+	# Check if any window is equal to the subarray
+	search = np.all(windows == subset, axis=1)
+	result = np.any(search)
+	print(len(subset))
+	#print(subset[400:500])
+	#print(superset[400:500])
+	for i in range(len(search)):
+		if search[i]:
+			print(i)
+	return result
+
+
+def simpleContains(superset, subset):
+	size = len(subset)
+	if size > len(superset):
+		print("Subset must be smaller than superset")
+		exit(-1)
+	for i in range(len(superset) - len(subset) + 1):
+		if np.array_equal(superset[i:i+len(subset)], subset):
+			return True
+	return False
 
 def getZeros(wav):
 	sign = getSign(wav[0])
 	zeros = []
 	firstZero = -1
 	for i in range(len(wav)):
-		# Catch if sample is exactly 0
 		# Does not need fuzzy matching since values are int16
 		if wav[i] == 0 and firstZero == -1:
 			firstZero = i
-		elif wav[i] == 0:
-			pass
 		elif wav[i] != 0 and firstZero != -1:
 			position = (firstZero + i - 1) / 2
 			zeros.append(float(position))
 			firstZero = -1
 			sign = getSign(wav[i])
-		elif getSign(wav[i]) != sign:
+		elif wav[i] != 0 and getSign(wav[i]) != sign:
 			sign = not sign
 			# Assume portion of the sine wave near zero is approx linear
 			# This is a valid assumption is there are at least 10 samples per wavelength

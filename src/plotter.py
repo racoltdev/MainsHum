@@ -8,10 +8,17 @@ def discreteTime(wav):
 	return
 
 
-def double(wav, zeros):
+def double(wav, zeros, ax):
 	numSamples = len(wav)
 	wavX = np.linspace(0, numSamples, num=numSamples)
-	plt.plot(wav)
+	ax.plot(wav)
 	zeroY = [0] * (len(zeros))
-	plt.scatter(zeros, zeroY)
+	ax.scatter(zeros, zeroY)
+
+def both(wav1, zeros1, wav2, zeros2):
+	fig, axis = plt.subplots(2)
+	axis[0].set_title("bg")
+	axis[1].set_title("sample")
+	double(wav1, zeros1, axis[0])
+	double(wav2, zeros2, axis[1])
 	plt.show()
