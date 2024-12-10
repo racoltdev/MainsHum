@@ -1,6 +1,3 @@
-import numpy as np
-from numpy.lib.stride_tricks import sliding_window_view
-
 import cli_utils as util
 import extract
 import converter
