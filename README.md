@@ -5,7 +5,7 @@ This project is intended to be a forensic investigation tool. It enables extract
 The electrical grid in the US runs at 60Hz with very little deviation. Historical data of the exact signal produced along the grid can be accessed by investigators. By extracting a narrow frequency band around 60Hz in audio recordings taken as evidence, it is theorietically possible to compare the ~60Hz component of the audio evidence to historical readings of the grid to determine an exact time when a file was recorded. This information is extremely valuable in instances where metadata for a file was overwritten or otherwise modified.
 <br/>
 <br/>
-For more information on how this project works, see the detailed write up at [Mains Hum and Audio Evidence Comparison Tool.odt]("Mains Hum and Audio Evidence Comparison Tool.odt").
+For more information on how this project works, see the detailed write up at [Mains Hum and Audio Evidence Comparison Tool.odt](Mains_Hum_and_Audio_Evidence_Comparison_Tool.odt).
 ## Installation
 Requires:
 - python: It works on python3.11.2, but will probably work on many other versions
