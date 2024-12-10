@@ -5,6 +5,7 @@ import cli_utils as util
 import extract
 import converter
 import plotter
+import contains
 
 def compare(sample, background, freq_min, freq_max):
 	sample_rate, extracted = extract.extract(sample, freq_min, freq_max)
@@ -28,38 +29,10 @@ def compare(sample, background, freq_min, freq_max):
 	sample_lengths = converter.listDelta(sample_zeros)
 	plotter.both(bg_mono, bg_zeros, sample_mono, sample_zeros)
 
-	time = contains(bg_lengths, sample_lengths)
+	time = contains.contains(bg_lengths, sample_lengths)
 	print(time)
 	return
 
-
-def contains(superset, subset):
-	return windowContains(superset, subset)
-
-
-def windowContains(superset, subset):
-	windows = sliding_window_view(superset, window_shape=len(subset))
-	# Check if any window is equal to the subarray
-	search = np.all(windows == subset, axis=1)
-	result = np.any(search)
-	print(len(subset))
-	#print(subset[400:500])
-	#print(superset[400:500])
-	for i in range(len(search)):
-		if search[i]:
-			print(i)
-	return result
-
-
-def simpleContains(superset, subset):
-	size = len(subset)
-	if size > len(superset):
-		print("Subset must be smaller than superset")
-		exit(-1)
-	for i in range(len(superset) - len(subset) + 1):
-		if np.array_equal(superset[i:i+len(subset)], subset):
-			return True
-	return False
 
 def getZeros(wav):
 	sign = getSign(wav[0])
