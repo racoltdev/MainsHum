@@ -47,7 +47,7 @@ When extracting narrow frequency bands, the resulting audio file is extremely qu
 #### Frequencies other than the ones I want are being extracted
 The cli expects two arguments that specify which frequencies should be extracted. The first is the average frequency to be extracted, and the second is the distance from the average that is acceptable to be extracted. It may be more intuitive in some use cases to instead specify the arguments as minimum frequency and maximum frequency, and it is an easy mistake to make. For the intended use case of this tool, the implmented interface is the best way to specify which frequencies to extract.
 #### A match is not being found when comparing audio samples I know should match
-The comparison method in this code is extremely brittle against any perturbations in the signal between the sample and the background signal. This is a known limitation of the tool, and a full explanation can be found in [LINK TO PAPER]
+The comparison method in this code is extremely brittle against any perturbations in the signal between the sample and the background signal. This is a known limitation of the tool, and a full explanation can be found in [Mains Hum and Audio Evidence Comparison Tool.odt](Mains_Hum_and_Audio_Evidence_Comparison_Tool.odt)
 #### Compare is not extracting the specified frequencies from the background file
 The compare function only performs frequency extraction on the sample file. The background file is expected to already be a narrow frequency band signal. If this is not the case, you must first run the background audio through the extract mode, and then use that output as the background signal in the compare mode.
 ## Citations
