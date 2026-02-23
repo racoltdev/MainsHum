@@ -1,4 +1,6 @@
 # Mains Hum and Audio Comparison
+> [!Note]
+> This is not a finished project. I am not an audio expert. The extraction tool, while functional, may not be precise or stable. The comparison tool does not work. Information on the methodology used and its failings is described extensively in the writeup: [Mains Hum and Audio Evidence Comparison Tool.pdf](Mains_Hum_and_Audio_Evidence_Comparison_Tool.pdf)
 ## Intro
 This project is intended to be a forensic investigation tool. It enables extraction of key frequency ranges from audio samples. The background signals can be used to compare multiple different sources or audio files and determine if they were recorded at the same place or at the same time.
 <br/><br/>
